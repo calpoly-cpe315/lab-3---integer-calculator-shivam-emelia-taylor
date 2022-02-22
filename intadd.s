@@ -9,18 +9,18 @@ intadd:
 	/*and - carry*/
 	stp    x29, x30, [sp, -16]!
 
-   mov   x3, x0
-   mov   x4, x2
+	mov   x3, x0
+	mov   x4, x2
 plusloop: 
-   and   x5, x4, x3
-   eor   x4, x4, x3
-   lsl   x5, x5, #1
-   mov   x3, x5
+	and   x5, x4, x3
+	eor   x4, x4, x3
+	lsl   x5, x5, #1
+	mov   x3, x5
 
-   cmp   x3, #0
-   b.ne  plusloop
+	cmp   x3, #0
+	b.ne  plusloop
 
-   mov   x0, x4
+	mov   x0, x4
 
 	ldp    x29, x30, [sp], 16
 	ret
