@@ -9,8 +9,6 @@ main:
     // driver function main lives here, modify this for your other functions
 	stp    x29, x30, [sp, -48]!
 	add    x29, sp, 0
-	stp    x0, x1, [sp, 16]
-	stp    x2, x3, [sp, 32]
 	bl     loop
 	
 loop:
@@ -18,28 +16,27 @@ loop:
 	ldr    w0, =num1
 	bl     printf
 	ldr    w0, =scanint
-	add    x1, sp, 16
+	add    x1, x29, 40
 	bl     scanf
-	ldr    x0, [sp, 16]
-	str    x0, [sp, 16]
+	ldr    x0, [x29, 40]
+	str    x0, [x29, 32]
 
 	/*num 2*/
 	ldr    w0, =num2
 	bl     printf
 	ldr    w0, =scanint
-	add    x1, sp, 16
+	add    x1, x29, 40
 	bl     scanf
-	ldr    x2, [sp, 16]
-	str    x2, [sp, 32]
+	ldr    x2, [x29, 40]
+	str    x2, [x29, 24]
 
 	/*operation*/
 	ldr    w0, =operation
 	bl     printf
 	ldr    w0, =scanchar
-	add    x1, sp, 16
+	add    x1, x29, 40
 	bl     scanf
-	ldr    x3, [sp, 16]
-	str    x3, [sp, 32]
+	ldr    x3, [x29, 40]
 
 	/*branch to operation*/
 	/*comp to each op type*/
@@ -48,10 +45,10 @@ loop:
 	ldr    x1, =addchar
 	ldrb   w1, [x1]
 	cmp    w1, w3
-	ldr    x0, [sp, 16]
-	ldr    x2, [sp, 32]
+	ldr    x0, [sp, 32]
+	ldr    x2, [sp, 24]
 	b.ne   sub
-	b.eq   intadd /*intadd*/
+	bl     intadd /*intadd*/
 	bl     output
 sub:	
 	/* - */
@@ -59,7 +56,7 @@ sub:
 	ldrb   w1, [x1]
 	cmp    w1, w3
 	b.ne   mul
-	b.eq   intsub /*intsub*/
+	bl     intsub /*intsub*/
 	bl     output
 
 mul:	
@@ -68,12 +65,12 @@ mul:
 	ldrb   w1, [x1]
 	cmp    w1, w3
 	b.ne   no
-	b.eq   intmul /*intmul*/
+	bl     intmul /*intmul*/
 
 output:	
 	/*result*/
 	/*load result*/
-	mov    x2, x0
+	mov    x5, x0
 	ldr    x0, =result
 	/*some how put in result*/
 	bl     printf
@@ -98,6 +95,9 @@ no:
 	ldr    x0, =error
 	bl     printf
 end:
+	mov    x0, #0
+	mov    x2, #0
+	mov    x3, #0
 	ldp    x29, x30, [sp], 32
 	ret
 
