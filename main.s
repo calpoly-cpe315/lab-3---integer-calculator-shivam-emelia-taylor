@@ -19,7 +19,7 @@ loop:
 	add    x1, x29, 40
 	bl     scanf
 	ldr    x0, [x29, 40]
-	str    x0, [x29, 32]
+	str    x0, [x29, 8]
 
 	/*num 2*/
 	ldr    w0, =num2
@@ -28,25 +28,27 @@ loop:
 	add    x1, x29, 40
 	bl     scanf
 	ldr    x2, [x29, 40]
-	str    x2, [x29, 24]
+	str    x2, [x29, 16]
 
 	/*operation*/
 	ldr    w0, =operation
 	bl     printf
-	ldr    w0, =scanchar
-	add    x1, x29, 40
-	bl     scanf
-	ldr    x3, [x29, 40]
 
+	ldr    w0, =scanchar
+	add    x1, x29, 32
+	bl     scanf
+	ldr    x3, [x29, 32]
+	
 	/*branch to operation*/
 	/*comp to each op type*/
 
 	/* + */
+	ldr    x0, [sp, 8]
+	ldr    x2, [sp, 16]
+
 	ldr    x1, =addchar
 	ldrb   w1, [x1]
 	cmp    w1, w3
-	ldr    x0, [sp, 32]
-	ldr    x2, [sp, 24]
 	b.ne   sub
 	bl     intadd /*intadd*/
 	bl     output
