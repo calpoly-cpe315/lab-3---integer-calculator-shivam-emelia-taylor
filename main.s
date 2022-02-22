@@ -2,7 +2,7 @@
     // Emelia, Shivam, Taylor
 
     .arch armv8-a
-
+ 
     // --------------------------------
     .global main
 main:
@@ -70,9 +70,11 @@ mul:
 output:	
 	/*result*/
 	/*load result*/
-	mov    x5, x0
-	ldr    x0, =result
+	
+	mov    x3, x0
+	ldr    w0, words
 	/*some how put in result*/
+	mov    x1, x3
 	bl     printf
 	
     // You'll need to scan characters for the operation and to determine
@@ -121,6 +123,8 @@ num2:
 	.asciz    "Enter Number 2: "
 operation:
 	.asciz    "Enter Operation: "
+words:
+	.word    result
 result:
 	.asciz    "Result is: %d\n"
 again:
